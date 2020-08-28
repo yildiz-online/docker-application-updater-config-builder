@@ -14,7 +14,5 @@ FROM moussavdb/runtime-java
 MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
 EXPOSE 10301
 WORKDIR /app
-COPY --from=build /app/target/retro-updater-config-builder-assembly.jar /app
-RUN cd  /app
-RUN ls -l
-CMD ["java -jar retro-updater-config-builder-assembly.jar"]
+COPY --from=build /app/target/updater-config-builder-assembly.jar /app
+CMD ["java -jar updater-config-builder-assembly.jar"]
