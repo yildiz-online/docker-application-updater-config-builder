@@ -12,9 +12,9 @@ RUN mvn package -s ../build-resources/settings.xml -DskipTests -Pbuild-assembly
 
 FROM moussavdb/runtime-java
 MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
-WORKDIR /app
 EXPOSE 10301
+WORKDIR /app
+COPY --from=build /app/target/retro-updater-config-builder-assembly.jar /app
 RUN cd  /app
 RUN ls -l
-COPY --from=build /app/target/retro-updater-config-builder-assembly.jar /app
 CMD ["java -jar retro-updater-config-builder-assembly.jar"]
