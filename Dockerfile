@@ -15,4 +15,4 @@ MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
 EXPOSE 10301
 WORKDIR /app
 COPY --from=build /app/target/updater-config-builder-assembly.jar /app
-CMD ["java -jar updater-config-builder-assembly.jar"]
+CMD ["java -jar /app/updater-config-builder-assembly.jar"]
