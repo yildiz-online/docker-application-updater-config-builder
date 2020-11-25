@@ -1,14 +1,19 @@
+arch:
+  - arm64
+os: linux
+dist: focal
+
 language: generic
 
 services:
   - docker
 
 before_install:
-  - docker build --build-arg GH_TOKEN=$GH_TOKEN -t moussavdb/app-updater-config-builder:latest -t moussavdb/app-updater-config-builder:build_$TRAVIS_BUILD_NUMBER .
+  - docker build --build-arg GH_TOKEN=$GH_TOKEN -t moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:latest -t moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:build_$TRAVIS_BUILD_NUMBER .
 script:
-  - docker images moussavdb/app-updater-config-builder
+  - docker images moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH
   
 after_success:
   - docker login -u="moussavdb" -p="$DOCKER_PASSWORD";
-    docker push moussavdb/app-updater-config-builder:latest;
-    docker push moussavdb/app-updater-config-builder:build_$TRAVIS_BUILD_NUMBER;
+    docker push moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:latest;
+    docker push moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:build_$TRAVIS_BUILD_NUMBER;
