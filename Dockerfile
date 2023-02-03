@@ -10,7 +10,7 @@ WORKDIR /app
 COPY --from=clone /app/retro-updater-config-builder /app
 RUN mvn package -s ../build-resources/settings.xml -DskipTests -Pbuild-assembly
 
-FROM moussavdb/runtime-java
+FROM moussavdb/runtime-java:17
 MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
 EXPOSE 10301
 WORKDIR /app
