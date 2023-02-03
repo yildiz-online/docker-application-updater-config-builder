@@ -1,19 +1,21 @@
 arch:
-  - arm64
+  - amd64
 os: linux
-dist: focal
+dist: jammy
+git:
+  depth: false
 
-language: generic
+language: bash
 
 services:
   - docker
 
 before_install:
-  - docker build --build-arg GH_TOKEN=$GH_TOKEN -t moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:latest -t moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:build_$TRAVIS_BUILD_NUMBER .
-script:
-  - docker images moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH
+  - mkdir -vp ~/.docker/cli-plugins/
+  - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.10.2/buildx-v0.10.2.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
+  - chmod a+x ~/.docker/cli-plugins/docker-buildx
   
-after_success:
+script:
   - docker login -u="moussavdb" -p="$DOCKER_PASSWORD";
-    docker push moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:latest;
-    docker push moussavdb/app-updater-config-builder-$TRAVIS_CPU_ARCH:build_$TRAVIS_BUILD_NUMBER;
+  - docker buildx create --use
+  - docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag moussavdb/application-updater_config_builder:latest .
