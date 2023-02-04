@@ -18,4 +18,4 @@ before_install:
 script:
   - docker login -u="moussavdb" -p="$DOCKER_PASSWORD";
   - docker buildx create --use
-  - docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag moussavdb/application-updater_config_builder:latest .
+  - docker buildx build --build-arg GH_TOKEN=$GH_TOKEN --push --platform linux/arm64/v8,linux/amd64 --tag moussavdb/application-updater_config_builder:latest .
