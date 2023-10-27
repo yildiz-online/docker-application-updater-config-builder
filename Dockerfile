@@ -4,13 +4,13 @@ ARG GH_TOKEN
 WORKDIR /app
 RUN git clone https://$GH_TOKEN@github.com/yildiz-online/retro-updater-config-builder.git
 
-FROM moussavdb/build-java:17 as build
+FROM moussavdb/build-java:21 as build
 MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
 WORKDIR /app
 COPY --from=clone /app/retro-updater-config-builder /app
 RUN mvn package -s ../build-resources/settings.xml -DskipTests -Pbuild-assembly
 
-FROM moussavdb/runtime-java:17
+FROM moussavdb/runtime-java:21
 MAINTAINER Grégory Van den Borre <vandenborre.gregory@hotmail.fr>
 EXPOSE 10301
 WORKDIR /app
